@@ -11,8 +11,19 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        surface: "#121212",
+        purple_dark_mode: "#BB86FC",
+        blue_dark_mode: "#3700B3",
+        green_dark_mode: "#03DAC6",
+      },
+      fontFamily: {
+        playfair: ["Playfair Display"],
+        fJalla: ["Fjalla One"],
+      },
+      gridTemplateColumns: {
+        "20": "repeat(20, minmax(100px, 1fr))",
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 } satisfies Config;
