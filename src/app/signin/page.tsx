@@ -27,6 +27,11 @@ export default function Signin() {
                 Sign In
               </button>
             </div>
+            <div>
+              <button className="bg-purple_dark_mode hover:bg-blue_dark_mode text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200">
+                Sign In
+              </button>
+            </div>
           </form>
         </div>
       </div>
