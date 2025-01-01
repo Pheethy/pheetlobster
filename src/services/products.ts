@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Product, ProductQueryParams, ProductsResp } from "../types/products";
+import { Product, ProductQueryParams, ProductsResp } from "../models/products";
 
 // 1. Constants
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;

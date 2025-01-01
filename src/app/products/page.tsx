@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { ProductsResp, ProductQueryParams } from "../../types/products";
+import { ProductsResp, ProductQueryParams } from "../../models/products";
 import { fetchAllProducts } from "../../services/products";
 
 export default function Products() {
