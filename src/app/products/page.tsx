@@ -13,7 +13,7 @@ export default function Products() {
   const queryParams: ProductQueryParams = {
     search_word: searchWord,
     page: page,
-    per_page: 3,
+    per_page: 10,
   };
 
   useEffect(() => {
