@@ -113,7 +113,6 @@ export default function SignIn() {
             <FontAwesomeIcon icon={faInstagram} />
           </div>
           <h2 className="text-2xl font-bold text-center text-white">Sign In</h2>
-
           {errors.general && (
             <div className="bg-red-500 bg-opacity-10 border border-red-500 text-red-500 px-4 py-2 rounded text-sm">
               {errors.general}
