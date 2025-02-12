@@ -71,7 +71,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                หิว
+                คิด
               </a>
             </motion.div>
           </li>
@@ -83,7 +83,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                ข้าว
+                ถึง
               </a>
             </motion.div>
           </li>
@@ -95,7 +95,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                จัง
+                อิ๊มพิลี่
               </a>
             </motion.div>
           </li>
@@ -107,7 +107,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                โว๊ยยยยยย!!!
+                จังคับบบบบ!!!
               </a>
             </motion.div>
           </li>
