@@ -107,7 +107,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                จังคับบบบบ!!!
+                จังคับบบบบ!!!🌼🐶
               </a>
             </motion.div>
           </li>

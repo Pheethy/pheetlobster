@@ -103,7 +103,7 @@ export default function SignUp() {
                   className="w-full bg-black text-white py-3 text-sm rounded-lg focus:outline-none"
                 />
               </div>
-              <button className="px-2 py-2 bg-purple_dark_mode rounded-lg font-thin mt-2 hover:bg-green_dark_mode transition duration-500">
+              <button className="px-2 py-2 bg-purple_dark_mode rounded-lg font-thin mt-2 hover:bg-green_dark_mode transition duration-200">
                 Sign Up
               </button>
             </section>
