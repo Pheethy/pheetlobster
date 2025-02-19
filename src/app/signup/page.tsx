@@ -2,8 +2,9 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodepen } from "@fortawesome/free-brands-svg-icons";
+import { UserSignUp } from "../../models/users";
+import { signUp } from "../../services/users";
 import {
-  faUser,
   faLock,
   faEye,
   faEyeSlash,
@@ -21,6 +22,7 @@ interface FormState {
 interface FormErrors {
   email?: string;
   password?: string;
+  profilePicture?: string;
   general?: string;
 }
 
@@ -36,6 +38,32 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!formData.profilePicture) {
+      newErrors.profilePicture = "Profile picture is required";
+    } else if (formData.profilePicture.size > 2000000) {
+      newErrors.profilePicture = "Profile picture must be small than 2 mb";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value, files } = e.target;
@@ -60,10 +88,48 @@ export default function SignUp() {
     }
   };
 
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const user: UserSignUp = {
+        email: formData.email,
+        username: formData.email.split("@")[0],
+        password: formData.password,
+        files: formData.profilePicture ? [formData.profilePicture] : [],
+      };
+
+      const passport = await signUp(user);
+      localStorage.setItem("access_token", passport.token.access_token);
+      localStorage.setItem("refresh_token", passport.token.refresh_token);
+      window.location.href = "/";
+    } catch (error) {
+      alert(error);
+      setErrors({
+        general:
+          error instanceof Error
+            ? error.message
+            : "An error occurred during sign in",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
-        <form className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8"
+        >
           {/* Header Section */}
           <div className="text-center space-y-2">
             <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
@@ -233,12 +299,35 @@ export default function SignUp() {
             {/* Submit Button */}
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full bg-purple-600 text-white py-3 px-4 rounded-xl font-medium 
                 hover:bg-purple-700 focus:bg-purple-700 focus:outline-none
                 transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
                 shadow-lg hover:shadow-purple-500/25"
             >
-              Create Account
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Signing in...
+                </span>
+              ) : (
+                "Create Account"
+              )}
             </button>
           </div>
         </form>

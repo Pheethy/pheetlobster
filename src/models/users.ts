@@ -11,6 +11,13 @@ export interface User {
   images: Image[];
 }
 
+export interface UserSignUp {
+  email: string;
+  username: string;
+  password: string;
+  files: File[];
+}
+
 export interface Token {
   oauth_id: string;
   access_token: string;
