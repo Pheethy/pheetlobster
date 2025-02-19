@@ -1,10 +1,19 @@
 "use client";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { User } from "../../models/users";
 import { signIn } from "../../services/users";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import {
+  faLock,
+  faEye,
+  faEyeSlash,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faGoogle,
+  faInstagram,
+  faCodepen,
+} from "@fortawesome/free-brands-svg-icons";
 
 interface FormState {
   email: string;
@@ -24,6 +33,8 @@ export default function SignIn() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [focusedField, setFocusedField] = useState<string>("");
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -50,7 +61,6 @@ export default function SignIn() {
       ...prev,
       [id]: value,
     }));
-    // Clear error when user starts typing
     if (errors[id as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
@@ -61,8 +71,6 @@ export default function SignIn() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    // Validate form
     if (!validateForm()) {
       return;
     }
@@ -83,10 +91,8 @@ export default function SignIn() {
       };
 
       const passport = await signIn(user);
-      // 1. Store the token in localStorage/cookies
       localStorage.setItem("access_token", passport.token.access_token);
       localStorage.setItem("refresh_token", passport.token.refresh_token);
-
       window.location.href = "/";
     } catch (error) {
       setErrors({
@@ -101,79 +107,226 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-surface flex items-center justify-center">
-      <div className="w-full max-w-md px-6 py-8">
+    <div className="min-h-screen w-full bg-gray-900 flex items-center justify-center p-4">
+      <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col bg-black rounded-lg shadow-lg p-8 gap-6"
+          className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8"
           noValidate
         >
-          <div className="flex items-center justify-center gap-4">
-            <FontAwesomeIcon icon={faGoogle} />
-            <FontAwesomeIcon icon={faInstagram} />
+          {/* Header Section */}
+          <div className="text-center space-y-2">
+            <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
+              <FontAwesomeIcon
+                icon={faCodepen}
+                className="text-3xl text-purple-400"
+              />
+            </div>
+            <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
+            <p className="text-gray-400 text-sm">
+              Sign in to continue your journey
+            </p>
           </div>
-          <h2 className="text-2xl font-bold text-center text-white">Sign In</h2>
+
+          {/* Social Login Section */}
+          <div className="flex justify-center gap-6">
+            <button
+              type="button"
+              className="p-3 rounded-full bg-purple-500/10 hover:bg-purple-500/20 transition duration-300 group"
+            >
+              <FontAwesomeIcon
+                icon={faGoogle}
+                className="text-xl text-purple-400 group-hover:scale-110 transition duration-300"
+              />
+            </button>
+            <button
+              type="button"
+              className="p-3 rounded-full bg-purple-500/10 hover:bg-purple-500/20 transition duration-300 group"
+            >
+              <FontAwesomeIcon
+                icon={faInstagram}
+                className="text-xl text-purple-400 group-hover:scale-110 transition duration-300"
+              />
+            </button>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-700"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-black/30 text-gray-400">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          {/* Error Message */}
           {errors.general && (
-            <div className="bg-red-500 bg-opacity-10 border border-red-500 text-red-500 px-4 py-2 rounded text-sm">
+            <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded-xl text-sm">
               {errors.general}
             </div>
           )}
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-thin text-white">
-              Email
-            </label>
-            <div
-              className={`flex items-center border rounded-lg focus:border-purple_dark_mode ${errors.email ? "border-red-500" : "border-gray-700"}`}
-            >
-              <FontAwesomeIcon icon={faUser} className="p-2" />
-              <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email..."
-                className="w-full bg-black text-white py-3 text-sm rounded-lg focus:outline-none"
-                disabled={isLoading}
-              />
+          {/* Form Fields */}
+          <div className="space-y-5">
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm text-gray-400 block">
+                Email Address
+              </label>
+              <div
+                className={`group relative border-2 rounded-xl transition-all duration-300 
+                ${
+                  focusedField === "email"
+                    ? "border-purple-500 bg-purple-500/5"
+                    : errors.email
+                      ? "border-red-500 bg-red-500/5"
+                      : "border-gray-700 hover:border-gray-600"
+                }`}
+              >
+                <div className="absolute inset-y-0 left-3 flex items-center">
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className={`transition-colors duration-300 
+                      ${
+                        focusedField === "email"
+                          ? "text-purple-400"
+                          : errors.email
+                            ? "text-red-400"
+                            : "text-gray-500"
+                      }`}
+                  />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => setFocusedField("email")}
+                  onBlur={() => setFocusedField("")}
+                  placeholder="name@example.com"
+                  className="w-full bg-transparent text-white pl-10 pr-4 py-3 text-sm rounded-xl focus:outline-none"
+                  disabled={isLoading}
+                />
+              </div>
+              {errors.email && (
+                <span className="text-red-500 text-xs pl-1">
+                  {errors.email}
+                </span>
+              )}
             </div>
-            {errors.email && (
-              <span className="text-red-500 text-xs mt-1">{errors.email}</span>
-            )}
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-thin text-white">
-              Password
-            </label>
-            <div
-              className={`flex items-center rounded-lg border focus:border-purple_dark_mode ${errors.password ? "border-red-500" : "border-gray-700"}`}
-            >
-              <FontAwesomeIcon icon={faLock} className="p-2" />
-              <input
-                id="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter your password..."
-                className="w-full bg-black text-white py-3 text-sm rounded-lg border-none focus:outline-none"
-                disabled={isLoading}
-              />
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm text-gray-400 block">
+                Password
+              </label>
+              <div
+                className={`group relative border-2 rounded-xl transition-all duration-300 
+                ${
+                  focusedField === "password"
+                    ? "border-purple-500 bg-purple-500/5"
+                    : errors.password
+                      ? "border-red-500 bg-red-500/5"
+                      : "border-gray-700 hover:border-gray-600"
+                }`}
+              >
+                <div className="absolute inset-y-0 left-3 flex items-center">
+                  <FontAwesomeIcon
+                    icon={faLock}
+                    className={`transition-colors duration-300 
+                      ${
+                        focusedField === "password"
+                          ? "text-purple-400"
+                          : errors.password
+                            ? "text-red-400"
+                            : "text-gray-500"
+                      }`}
+                  />
+                </div>
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={handleChange}
+                  onFocus={() => setFocusedField("password")}
+                  onBlur={() => setFocusedField("")}
+                  placeholder="Enter your password"
+                  className="w-full bg-transparent text-white pl-10 pr-12 py-3 text-sm rounded-xl focus:outline-none"
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-purple-400 transition-colors duration-300"
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
+              {errors.password && (
+                <span className="text-red-500 text-xs pl-1">
+                  {errors.password}
+                </span>
+              )}
             </div>
-            {errors.password && (
-              <span className="text-red-500 text-xs mt-1">
-                {errors.password}
-              </span>
-            )}
-          </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-purple_dark_mode hover:bg-blue_dark_mode text-white px-6 py-3 rounded-lg text-sm transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </button>
+            {/* Forgot Password Link */}
+            <div className="flex justify-end">
+              <a
+                href="#"
+                className="text-sm text-purple-400 hover:text-purple-300 transition-colors duration-300"
+              >
+                Forgot your password?
+              </a>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-purple-600 text-white py-3 px-4 rounded-xl font-medium 
+                hover:bg-purple-700 focus:bg-purple-700 focus:outline-none
+                transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
+                shadow-lg hover:shadow-purple-500/25
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Signing in...
+                </span>
+              ) : (
+                "Sign In"
+              )}
+            </button>
+
+            {/* Sign Up Link */}
+            <p className="text-center text-gray-400 text-sm">
+              Don't have an account?{" "}
+              <a
+                href="/signup"
+                className="text-purple-400 hover:text-purple-300 transition-colors duration-300"
+              >
+                Sign up
+              </a>
+            </p>
+          </div>
         </form>
       </div>
     </div>
