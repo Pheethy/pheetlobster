@@ -36,6 +36,13 @@ export default function SignUp() {
 
   const validateForm = (): [boolean, string] => {
     let newErrors: string = "";
+    if (!formData.profilePicture) {
+      newErrors = "Profile picture is required";
+      return [false, newErrors];
+    } else if (formData.profilePicture.size > 2000000) {
+      newErrors = "Profile picture must be small than 2 mb";
+      return [false, newErrors];
+    }
 
     if (!formData.email) {
       newErrors = "Email is required";
@@ -56,14 +63,6 @@ export default function SignUp() {
       return [false, newErrors];
     } else if (formData.comfirm_password != formData.password) {
       newErrors = "Password is not match";
-      return [false, newErrors];
-    }
-
-    if (!formData.profilePicture) {
-      newErrors = "Profile picture is required";
-      return [false, newErrors];
-    } else if (formData.profilePicture.size > 2000000) {
-      newErrors = "Profile picture must be small than 2 mb";
       return [false, newErrors];
     }
 
