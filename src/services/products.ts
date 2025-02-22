@@ -2,8 +2,8 @@ import axios, { AxiosError } from "axios";
 import { Product, ProductQueryParams, ProductsResp } from "../models/products";
 
 // 1. Constants
-// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-const BASE_URL = "http://127.0.0.1:8080";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+// const BASE_URL = "http://127.0.0.1:8080";
 const API_VERSION = "v1";
 const ENDPOINTS = {
   products: `${BASE_URL}/${API_VERSION}/products`,
