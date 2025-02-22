@@ -10,20 +10,15 @@ import {
   faEyeSlash,
   faImage,
   faEnvelope,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast, Toaster } from "sonner";
 
 interface FormState {
   email: string;
   password: string;
   comfirm_password: string;
   profilePicture: File | null;
-}
-
-interface FormErrors {
-  email?: string;
-  password?: string;
-  profilePicture?: string;
-  general?: string;
 }
 
 export default function SignUp() {
@@ -34,35 +29,45 @@ export default function SignUp() {
     profilePicture: null,
   });
   const [previewUrl, setPreviewUrl] = useState<string>("");
-  const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+  const validateForm = (): [boolean, string] => {
+    let newErrors: string = "";
 
     if (!formData.email) {
-      newErrors.email = "Email is required";
+      newErrors = "Email is required";
+      return [false, newErrors];
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
+      newErrors = "Please enter a valid email";
+      return [false, newErrors];
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required";
+      newErrors = "Password is required";
+      return [false, newErrors];
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors = "Password must be at least 6 characters";
+      return [false, newErrors];
+    } else if (!formData.comfirm_password) {
+      newErrors = "Please comfirm your password";
+      return [false, newErrors];
+    } else if (formData.comfirm_password != formData.password) {
+      newErrors = "Password is not match";
+      return [false, newErrors];
     }
 
     if (!formData.profilePicture) {
-      newErrors.profilePicture = "Profile picture is required";
+      newErrors = "Profile picture is required";
+      return [false, newErrors];
     } else if (formData.profilePicture.size > 2000000) {
-      newErrors.profilePicture = "Profile picture must be small than 2 mb";
+      newErrors = "Profile picture must be small than 2 mb";
+      return [false, newErrors];
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return [true, ""];
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,14 +93,19 @@ export default function SignUp() {
     }
   };
 
+  const handlerBackToSignIn = () => {
+    window.location.href = "/signin";
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
+    const [ok, errMsg] = validateForm();
+    if (!ok) {
+      toast.error(errMsg);
       return;
     }
 
     setIsLoading(true);
-    setErrors({});
 
     try {
       const user: UserSignUp = {
@@ -111,12 +121,12 @@ export default function SignUp() {
       window.location.href = "/";
     } catch (error) {
       alert(error);
-      setErrors({
-        general:
-          error instanceof Error
-            ? error.message
-            : "An error occurred during sign in",
-      });
+      // setErrors({
+      //   message:
+      //     error instanceof Error
+      //       ? error.message
+      //       : "An error occurred during sign in",
+      // });
     } finally {
       setIsLoading(false);
     }
@@ -130,9 +140,15 @@ export default function SignUp() {
           noValidate
           className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8"
         >
+          <button onClick={handlerBackToSignIn}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="text-xl text-purple-400"
+            />
+          </button>
           {/* Header Section */}
-          <div className="text-center space-y-2">
-            <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
+          <div className="flex flex-col items-center justify-center">
+            <div className="rounded-full bg-purple-500/10 mb-2">
               <FontAwesomeIcon
                 icon={faCodepen}
                 className="text-3xl text-purple-400"
@@ -331,6 +347,7 @@ export default function SignUp() {
             </button>
           </div>
         </form>
+        <Toaster />
       </div>
     </div>
   );
