@@ -128,35 +128,27 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="bg-surface min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-            <p className="text-gray-400 mt-1">
+    <div className="bg-surface min-h-screen transition-all duration-300">
+      <div className="container mx-auto px-4 py-8 animate-fadeIn">
+        {/* Header with enhanced animations */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 animate-slideDown">
+          <div className="transform hover:scale-105 transition-transform duration-300">
+            <h1 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Dashboard</h1>
+            <p className="text-gray-400 mt-1 animate-pulse">
               Welcome back, {user?.username || "User"}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
-            <div className="flex space-x-2 bg-gray-800 rounded-lg shadow p-1">
+            <div className="flex space-x-2 bg-gray-800/80 backdrop-blur-lg rounded-lg shadow-lg p-1">
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === "overview"
-                    ? "bg-primary text-white"
-                    : "text-gray-300 hover:bg-gray-700"
-                }`}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === "overview" ? "bg-primary text-white shadow-lg" : "text-gray-300 hover:bg-gray-700/70"}`}
               >
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab("analytics")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === "analytics"
-                    ? "bg-primary text-white"
-                    : "text-gray-300 hover:bg-gray-700"
-                }`}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === "analytics" ? "bg-primary text-white shadow-lg" : "text-gray-300 hover:bg-gray-700/70"}`}
               >
                 Analytics
               </button>
@@ -164,26 +156,31 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Stats Overview */}
+        {/* Stats Overview with enhanced animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-gray-300">Total Sales</p>
-                {renderTrendIndicator(stats.trends.sales)}
-              </div>
-              <div className="flex items-center">
-                <div className="p-3 rounded-full bg-blue-900 text-blue-300 mr-4">
-                  <FontAwesomeIcon icon={faChartLine} className="w-6 h-6" />
+          {/* Stats cards with improved animations and glassmorphism */}
+          <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group animate-fadeIn">
+            <div className="p-6 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-medium text-gray-300">Total Sales</p>
+                  {renderTrendIndicator(stats.trends.sales)}
                 </div>
-                <p className="text-2xl font-bold text-white">
-                  {stats.totalSales.toLocaleString()}
-                </p>
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-900/50 text-blue-300 mr-4 group-hover:scale-110 transition-transform duration-300">
+                    <FontAwesomeIcon icon={faChartLine} className="w-6 h-6" />
+                  </div>
+                  <p className="text-2xl font-bold text-white group-hover:scale-105 transition-transform duration-300">
+                    {stats.totalSales.toLocaleString()}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-blue-600 to-blue-400 h-1" />
+            <div className="bg-gradient-to-r from-blue-600 to-blue-400 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
           </div>
 
+          {/* Repeat similar enhancements for other stat cards */}
           <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="p-6">
               <div className="flex items-center justify-between mb-2">
@@ -241,16 +238,16 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Products and Activities */}
+        {/* Products and Activities with modern styling */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Recent Products */}
+          {/* Recent Products with enhanced table */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-6 overflow-hidden">
+            <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                   Recent Products
                 </h2>
-                <button className="text-sm text-primary font-medium hover:underline">
+                <button className="text-sm text-primary font-medium hover:underline transition-all duration-300 hover:text-primary/80">
                   View All
                 </button>
               </div>
@@ -309,9 +306,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Recent Activities */}
+          {/* Recent Activities with modern cards */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-6 overflow-hidden">
+            <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-white">
                   Recent Activities
