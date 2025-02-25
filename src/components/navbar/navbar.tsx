@@ -26,7 +26,10 @@ export default function Navbar() {
           >
             Portal
           </Link>
-          <Link href="#" className="hover:scale-110 transition duration-300">
+          <Link
+            href="/dashboard"
+            className="hover:scale-110 transition duration-300"
+          >
             Article
           </Link>
           <Link
