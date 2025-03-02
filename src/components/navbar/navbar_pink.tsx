@@ -71,7 +71,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                คิด
+                TESTABILITY
               </a>
             </motion.div>
           </li>
@@ -83,7 +83,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                ถึง
+                SCALEABILITY
               </a>
             </motion.div>
           </li>
@@ -95,7 +95,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                อิ๊มพิลี่
+                MAINTAINABILITY
               </a>
             </motion.div>
           </li>
@@ -107,7 +107,7 @@ export default function NavbarPink() {
               exit="exit"
             >
               <a href="#" className="text-[80px] hover:text-[#eaeaea]">
-                จังคับบบบบ!!!🌼🐶
+                SUSTAINABILITY🌼🐶
               </a>
             </motion.div>
           </li>
