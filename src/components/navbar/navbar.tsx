@@ -47,7 +47,7 @@ export default function Navbar() {
         <section className="flex justify-center items-center gap-x-2 text-sm font-light">
           <img
             alt="profile"
-            src="https://storage.googleapis.com/pheethy-dev-bucket/images/user/5e4fec_1734685748807.jpg"
+            src="./mootoo.jpg"
             className="w-10 h-10 rounded-full"
           />
           <div className="flex flex-col">
