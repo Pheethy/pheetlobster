@@ -2,7 +2,6 @@ import axios from "axios";
 import { User, UserPassport, UserSignUp } from "../models/users";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-// const BASE_URL = "http://127.0.0.1:8080"
 const API_VERSION = "v1";
 const ENDPOINTS = {
   user: `${BASE_URL}/${API_VERSION}/user`,

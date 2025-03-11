@@ -5,6 +5,12 @@ import { User } from "@/models/users";
 import { ProductsResp } from "@/models/products";
 import { fetchAllProducts } from "@/services/products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  created_at: string;
+};
 import {
   faChartLine,
   faBox,
@@ -62,6 +68,27 @@ export default function Dashboard() {
   };
 
   // Mock data for recent activities
+  const mockRecentProducts: Product[] = [
+    {
+      id: 1,
+      name: "Product A",
+      price: 19.99,
+      created_at: "2024-03-08T12:00:00Z",
+    },
+    {
+      id: 2,
+      name: "Product B",
+      price: 29.99,
+      created_at: "2024-03-09T14:30:00Z",
+    },
+    {
+      id: 3,
+      name: "Product C",
+      price: 9.99,
+      created_at: "2024-03-10T10:45:00Z",
+    },
+  ];
+
   const recentActivities = [
     {
       id: 1,
@@ -133,7 +160,9 @@ export default function Dashboard() {
         {/* Header with enhanced animations */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 animate-slideDown">
           <div className="transform hover:scale-105 transition-transform duration-300">
-            <h1 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+              Dashboard
+            </h1>
             <p className="text-gray-400 mt-1 animate-pulse">
               Welcome back, {user?.username || "User"}
             </p>
@@ -164,7 +193,9 @@ export default function Dashboard() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-gray-300">Total Sales</p>
+                  <p className="text-sm font-medium text-gray-300">
+                    Total Sales
+                  </p>
                   {renderTrendIndicator(stats.trends.sales)}
                 </div>
                 <div className="flex items-center">
@@ -267,7 +298,7 @@ export default function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {productStats?.products.map((product) => (
+                    {mockRecentProducts.map((product) => (
                       <tr
                         key={product.id}
                         className="hover:bg-gray-700 transition-colors"
@@ -290,7 +321,8 @@ export default function Dashboard() {
                         </td>
                       </tr>
                     ))}
-                    {(!productStats || productStats.products.length === 0) && (
+                    {(!mockRecentProducts ||
+                      mockRecentProducts?.length === 0) && (
                       <tr>
                         <td
                           colSpan={3}
