@@ -107,11 +107,11 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-black flex items-start justify-center p-4">
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
-          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8"
+          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8 mt-36"
           noValidate
         >
           {/* Header Section */}

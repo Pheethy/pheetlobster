@@ -22,7 +22,7 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="container flex flex-col justify-between items-center mx-auto px-4 py-8 min-h-screen">
+      <div className="container flex flex-col justify-between items-center mx-auto px-4 py-4 min-h-screen">
         <div className="mb-8">
           <div className="flex justify-center items-center w-full">
             <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -73,8 +73,8 @@ export default function Products() {
           ))}
         </div>
 
-        <div className="w-full flex justify-center py-6 border-t border-zinc-900">
-          <div className="flex space-x-2 mt-16">
+        <div className="w-full flex justify-center py-2 border-t border-zinc-900">
+          <div className="flex space-x-2">
             {Array.from({ length: productsResp?.total_page || 0 }, (_, i) => (
               <button
                 key={i + 1}

@@ -132,12 +132,12 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-black flex items-start justify-center p-4">
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8"
+          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8 mt-36"
         >
           <button onClick={handlerBackToSignIn}>
             <FontAwesomeIcon
@@ -147,12 +147,6 @@ export default function SignUp() {
           </button>
           {/* Header Section */}
           <div className="flex flex-col items-center justify-center">
-            <div className="rounded-full bg-purple-500/10 mb-2">
-              <FontAwesomeIcon
-                icon={faCodepen}
-                className="text-3xl text-purple-400"
-              />
-            </div>
             <h1 className="text-2xl font-bold text-white">
               Create Your Account
             </h1>
