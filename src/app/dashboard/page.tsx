@@ -15,6 +15,7 @@ import {
   faArrowUp,
   faArrowDown,
   faCircleInfo,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard() {
@@ -22,6 +23,7 @@ export default function Dashboard() {
   const [productStats, setProductStats] = useState<ProductsResp | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in (could retrieve from localStorage or context)
@@ -174,7 +176,7 @@ export default function Dashboard() {
     },
   ];
 
-  const getActivityIcon = (type: string) => {
+  const getActivityIcon = (type: string): IconDefinition => {
     switch (type) {
       case "order":
         return faCreditCard;
@@ -333,14 +335,22 @@ export default function Dashboard() {
           <div className="lg:col-span-2">
             <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                  Transactions
-                  <FontAwesomeIcon
-                    className="pl-2 text-gray-600 hover:text-white transition duration-500"
-                    icon={faCircleInfo}
-                    title="More information about this section"
-                  />
-                </h2>
+                <div className="flex items-center text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                  <h2>Transactions</h2>
+                  <div>
+                    <FontAwesomeIcon
+                      className="w-4 h-4 pl-2 text-gray-600 hover:text-white transition duration-500 relative"
+                      icon={faCircleInfo}
+                      onMouseOver={() => setIsTooltipVisible(true)}
+                      onMouseOut={() => setIsTooltipVisible(false)}
+                    />
+                    {isTooltipVisible && (
+                      <div className="absolute tooltip-content bg-gray-800 text-white p-2 rounded shadow-md text-sm font-light">
+                        More information about this section!
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <button className="text-sm text-primary font-medium hover:underline transition-all duration-300 hover:text-primary/80">
                   View All
                 </button>

@@ -132,12 +132,12 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8"
+          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8"
         >
           <button onClick={handlerBackToSignIn}>
             <FontAwesomeIcon

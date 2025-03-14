@@ -107,11 +107,11 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
-          className="backdrop-blur-lg bg-black/30 rounded-2xl shadow-2xl p-8 space-y-8"
+          className="backdrop-blur-lg bg-gray-700/30 rounded-2xl shadow-2xl p-8 space-y-8"
           noValidate
         >
           {/* Header Section */}
@@ -119,7 +119,7 @@ export default function SignIn() {
             <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
               <FontAwesomeIcon
                 icon={faCodepen}
-                className="text-3xl text-purple-400"
+                className="text-3xl text-white"
               />
             </div>
             <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
