@@ -22,7 +22,7 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="container flex flex-col justify-center items-center mx-auto px-4 py-8">
+      <div className="container flex flex-col justify-between items-center mx-auto px-4 py-8 min-h-screen">
         <div className="mb-8">
           <div className="flex justify-center items-center w-full">
             <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -41,25 +41,30 @@ export default function Products() {
           {productsResp?.products.map((product, index) => (
             <div
               key={index}
-              className="bg-black rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+              className="bg-[#0a0a0a] rounded-sm overflow-hidden transition-all duration-500 flex flex-col h-[450px] w-[300px] border border-zinc-900 group hover:border-zinc-700"
             >
-              <img
-                src={product.images?.[0].url}
-                alt={product.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-gray-400 text-sm mb-4">
+              <div className="h-64 overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <img
+                  src={product.images?.[0].url}
+                  alt={product.name}
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="flex flex-col space-y-1 mb-4">
+                  <h3 className="font-light text-lg tracking-wide text-white line-clamp-1 group-hover:text-gray-200 transition-colors duration-300">
+                    {product.name}
+                  </h3>
+                  <span className="text-zinc-400 font-light text-sm tracking-wider">
+                    ${product.price.toFixed(2)}
+                  </span>
+                </div>
+                <p className="text-zinc-500 text-sm mb-6 line-clamp-2 flex-grow font-extralight tracking-wide">
                   {product.description}
                 </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-green-400 font-bold">
-                    {product.price} $
-                  </span>
-                  <button className="bg-purple_dark_mode hover:bg-blue_dark_mode text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200">
+                <div className="mt-auto">
+                  <button className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300">
                     Add to Cart
                   </button>
                 </div>
@@ -68,18 +73,19 @@ export default function Products() {
           ))}
         </div>
 
-        <div className="join mt-8">
-          {Array.from({ length: productsResp?.total_page || 0 }, (_, i) => (
-            <input
-              key={i + 1}
-              className="join-item btn btn-square"
-              type="radio"
-              name="options"
-              aria-label={(i + 1).toString()}
-              defaultChecked={i + 1 === 1}
-              onClick={() => setPage(i + 1)}
-            />
-          ))}
+        <div className="w-full flex justify-center py-6 border-t border-zinc-900">
+          <div className="flex space-x-2 mt-16">
+            {Array.from({ length: productsResp?.total_page || 0 }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`w-10 h-10 border ${page === i + 1 ? "border-zinc-500 text-white" : "border-zinc-800 text-zinc-600"} 
+              hover:border-zinc-600 hover:text-zinc-300 transition-colors duration-300 text-xs font-light`}
+                onClick={() => setPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

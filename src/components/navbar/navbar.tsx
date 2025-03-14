@@ -25,9 +25,9 @@ export default function Navbar() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -37,24 +37,17 @@ export default function Navbar() {
 
   const handleMenuItemClick = (action?: string) => {
     setIsMenuVisible(false);
-    if (action === 'signin') {
-      window.location.href = '/signin';
+    if (action === "signin") {
+      window.location.href = "/signin";
     }
   };
 
   return (
-    <nav className="w-full h-24 bg-black text-white">
+    <nav className="w-full h-20 bg-black text-white sticky top-0 z-50 shadow-md">
       <div className="container mx-auto h-full flex justify-between items-center p-4">
         {/* logo */}
         <section className="flex items-center text-white font-light text-sm">
-          <div className="mr-2 text-white w-50 h-50">
-            <img
-              src="/imppily.gif"
-              alt="logo"
-              width={60}
-              height={60}
-            />
-          </div>
+          <FontAwesomeIcon className="mr-2 h-5 w-5" icon={faCodepen} />
           <a href="/">ODOR</a>
         </section>
 
@@ -103,7 +96,7 @@ export default function Navbar() {
           >
             <FontAwesomeIcon
               icon={faCaretDown}
-              className={`text-white w-4 h-4 transform transition-transform duration-300 ${isMenuVisible ? 'rotate-180' : ''}`}
+              className={`text-white w-4 h-4 transform transition-transform duration-300 ${isMenuVisible ? "rotate-180" : ""}`}
             />
             {isMenuVisible && (
               <div
@@ -112,7 +105,7 @@ export default function Navbar() {
               >
                 <div className="flex flex-col gap-2">
                   <div
-                    onClick={() => handleMenuItemClick('profile')}
+                    onClick={() => handleMenuItemClick("profile")}
                     className="flex items-center gap-2 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     <img
@@ -122,24 +115,26 @@ export default function Navbar() {
                     />
                     <div className="flex flex-col text-sm">
                       <span className="text-white">{fName}</span>
-                      <span className="text-gray-400 text-xs">View Profile</span>
+                      <span className="text-gray-400 text-xs">
+                        View Profile
+                      </span>
                     </div>
                   </div>
                   <hr className="border-gray-800" />
                   <div
-                    onClick={() => handleMenuItemClick('profile')}
+                    onClick={() => handleMenuItemClick("profile")}
                     className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     Profile Settings
                   </div>
                   <div
-                    onClick={() => handleMenuItemClick('profile')}
+                    onClick={() => handleMenuItemClick("profile")}
                     className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     Help Center
                   </div>
                   <div
-                    onClick={() => handleMenuItemClick('signin')}
+                    onClick={() => handleMenuItemClick("signin")}
                     className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     {isLogIn ? "Sign Out" : "Sign In"}

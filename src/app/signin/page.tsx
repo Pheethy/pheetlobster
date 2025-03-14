@@ -117,10 +117,11 @@ export default function SignIn() {
           {/* Header Section */}
           <div className="text-center space-y-2">
             <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
-              <FontAwesomeIcon
-                icon={faCodepen}
-                className="text-3xl text-white"
-              />
+              {/* <FontAwesomeIcon */}
+              {/*   icon={faCodepen} */}
+              {/*   className="text-3xl text-white" */}
+              {/* /> */}
+              <img src="/imppily.gif" alt="imppily" className="w-48 h-48" />
             </div>
             <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
             <p className="text-gray-400 text-sm">

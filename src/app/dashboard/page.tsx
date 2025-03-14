@@ -215,29 +215,29 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="bg-surface min-h-screen transition-all duration-300">
-      <div className="container mx-auto px-4 py-8 animate-fadeIn">
-        {/* Header with enhanced animations */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 animate-slideDown">
-          <div className="transform hover:scale-105 transition-transform duration-300">
-            <h1 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+    <div className="min-h-screen bg-surface">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header with minimalist styling */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-16">
+          <div>
+            <h1 className="text-3xl font-light tracking-wide text-white">
               🌼 Dashboard
             </h1>
-            <p className="text-white mt-1 animate-pulse">
+            <p className="text-zinc-400 mt-1 font-extralight tracking-wider animate-pulse">
               Welcome back, {user?.username || "PheetchY"}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
-            <div className="flex space-x-2 bg-gray-800/80 backdrop-blur-lg rounded-lg shadow-lg p-1">
+            <div className="flex space-x-2 border border-zinc-900 p-1">
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === "overview" ? "bg-primary text-white shadow-lg" : "text-gray-300 hover:bg-gray-700/70"}`}
+                className={`px-4 py-2 text-xs tracking-widest uppercase font-light transition-all duration-300 ${activeTab === "overview" ? "text-white border-b border-zinc-500" : "text-zinc-600 hover:text-zinc-300"}`}
               >
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab("analytics")}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === "analytics" ? "bg-primary text-white shadow-lg" : "text-gray-300 hover:bg-gray-700/70"}`}
+                className={`px-4 py-2 text-xs tracking-widest uppercase font-light transition-all duration-300 ${activeTab === "analytics" ? "text-white border-b border-zinc-500" : "text-zinc-600 hover:text-zinc-300"}`}
               >
                 Analytics
               </button>
@@ -245,113 +245,115 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Stats Overview with enhanced animations */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Stats cards with improved animations and glassmorphism */}
-          <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group animate-fadeIn">
-            <div className="p-6 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-gray-300">
-                    Total Sales
-                  </p>
-                  {renderTrendIndicator(stats.trends.sales)}
-                </div>
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-blue-900/50 text-blue-300 mr-4 group-hover:scale-110 transition-transform duration-300">
-                    <FontAwesomeIcon icon={faChartLine} className="w-6 h-6" />
-                  </div>
-                  <p className="text-2xl font-bold text-white group-hover:scale-105 transition-transform duration-300">
-                    {stats.totalSales.toLocaleString()}
-                  </p>
-                </div>
+        {/* Stats Overview with minimalist styling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {/* Stats cards with minimalist styling */}
+          <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500">
+            <div className="p-6 relative">
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs font-light tracking-widest uppercase text-zinc-500">
+                  Total Sales
+                </p>
+                {renderTrendIndicator(stats.trends.sales)}
+              </div>
+              <div className="flex items-center">
+                <FontAwesomeIcon
+                  icon={faChartLine}
+                  className="w-5 h-5 text-zinc-600 mr-4"
+                />
+                <p className="text-2xl font-light tracking-wide text-white">
+                  {stats.totalSales.toLocaleString()}
+                </p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-blue-600 to-blue-400 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
           </div>
 
-          {/* Repeat similar enhancements for other stat cards */}
-          <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500">
             <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-gray-300">Revenue</p>
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs font-light tracking-widest uppercase text-zinc-500">
+                  Revenue
+                </p>
                 {renderTrendIndicator(stats.trends.revenue)}
               </div>
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-green-900 text-green-300 mr-4">
-                  <FontAwesomeIcon icon={faCreditCard} className="w-6 h-6" />
-                </div>
-                <p className="text-2xl font-bold text-white">
+                <FontAwesomeIcon
+                  icon={faCreditCard}
+                  className="w-5 h-5 text-zinc-600 mr-4"
+                />
+                <p className="text-2xl font-light tracking-wide text-white">
                   ${stats.totalRevenue.toLocaleString()}
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-green-600 to-green-400 h-1" />
           </div>
 
-          <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500">
             <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-gray-300">New Users</p>
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs font-light tracking-widest uppercase text-zinc-500">
+                  New Users
+                </p>
                 {renderTrendIndicator(stats.trends.users)}
               </div>
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-purple-900 text-purple-300 mr-4">
-                  <FontAwesomeIcon icon={faUser} className="w-6 h-6" />
-                </div>
-                <p className="text-2xl font-bold text-white">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="w-5 h-5 text-zinc-600 mr-4"
+                />
+                <p className="text-2xl font-light tracking-wide text-white">
                   {stats.newUsers.toLocaleString()}
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-purple-600 to-purple-400 h-1" />
           </div>
 
-          <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500">
             <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-gray-300">
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs font-light tracking-widest uppercase text-zinc-500">
                   Pending Orders
                 </p>
                 {renderTrendIndicator(stats.trends.orders)}
               </div>
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-amber-900 text-amber-300 mr-4">
-                  <FontAwesomeIcon icon={faBox} className="w-6 h-6" />
-                </div>
-                <p className="text-2xl font-bold text-white">
+                <FontAwesomeIcon
+                  icon={faBox}
+                  className="w-5 h-5 text-zinc-600 mr-4"
+                />
+                <p className="text-2xl font-light tracking-wide text-white">
                   {stats.pendingOrders.toLocaleString()}
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-amber-600 to-amber-400 h-1" />
           </div>
         </div>
 
-        {/* Products and Activities with modern styling */}
+        {/* Products and Activities with minimalist styling */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Recent Products with enhanced table */}
+          {/* Transactions with minimalist table */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                  <h2>Transactions</h2>
+            <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500 p-6">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center">
+                  <h2 className="text-lg font-light tracking-wide text-white">
+                    Transactions
+                  </h2>
                   <div>
                     <FontAwesomeIcon
-                      className="w-4 h-4 pl-2 text-gray-600 hover:text-white transition duration-500 relative"
+                      className="w-3 h-3 ml-2 text-zinc-600 hover:text-zinc-400 transition duration-300 relative"
                       icon={faCircleInfo}
                       onMouseOver={() => setIsTooltipVisible(true)}
                       onMouseOut={() => setIsTooltipVisible(false)}
                     />
                     {isTooltipVisible && (
-                      <div className="absolute tooltip-content bg-gray-800 text-white p-2 rounded shadow-md text-sm font-light">
-                        More information about this section!
+                      <div className="absolute tooltip-content bg-[#0a0a0a] text-zinc-400 p-2 border border-zinc-800 text-xs font-extralight tracking-wide">
+                        More information about this section
                       </div>
                     )}
                   </div>
                 </div>
-                <button className="text-sm text-primary font-medium hover:underline transition-all duration-300 hover:text-primary/80">
+                <button className="text-xs text-zinc-500 font-light tracking-widest uppercase hover:text-zinc-300 transition-all duration-300">
                   View All
                 </button>
               </div>
@@ -359,19 +361,19 @@ export default function Dashboard() {
                 <table className="w-full">
                   <thead>
                     <tr>
-                      <th className="text-left py-3 px-2 text-sm font-medium text-gray-400 border-b border-gray-700">
+                      <th className="text-left py-3 px-2 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         From
                       </th>
-                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         To
                       </th>
-                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         Tx.Hashing
                       </th>
-                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         Price
                       </th>
-                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         Created
                       </th>
                     </tr>
@@ -380,21 +382,21 @@ export default function Dashboard() {
                     {mockTranstions.map((transItem) => (
                       <tr
                         key={transItem.id}
-                        className="hover:bg-gray-700 transition-colors"
+                        className="hover:bg-zinc-900 transition-colors duration-300"
                       >
-                        <td className="py-3 px-2 text-sm text-gray-300">
+                        <td className="py-3 px-2 text-sm font-light text-zinc-400">
                           {transItem.from}
                         </td>
-                        <td className="py-3 px-4 text-sm text-gray-300">
+                        <td className="py-3 px-4 text-sm font-light text-zinc-400">
                           {transItem.to}
                         </td>
-                        <td className="py-3 px-4 text-sm text-gray-300">
+                        <td className="py-3 px-4 text-sm font-light text-zinc-400">
                           {transItem.hash_transaction}
                         </td>
-                        <td className="py-3 px-4 text-sm text-gray-300 font-medium">
+                        <td className="py-3 px-4 text-sm font-light text-zinc-400">
                           ${transItem.price.toFixed(2)}
                         </td>
-                        <td className="py-3 px-4 text-sm text-gray-400">
+                        <td className="py-3 px-4 text-sm font-extralight text-zinc-500">
                           {new Date(transItem.created_at).toLocaleDateString(
                             undefined,
                             {
@@ -410,9 +412,9 @@ export default function Dashboard() {
                       <tr>
                         <td
                           colSpan={3}
-                          className="text-center py-6 text-gray-400"
+                          className="text-center py-6 text-zinc-500 font-extralight"
                         >
-                          No products found
+                          No transactions found
                         </td>
                       </tr>
                     )}
@@ -422,34 +424,32 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Recent Activities with modern cards */}
+          {/* Recent Activities with minimalist styling */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">
+            <div className="bg-[#0a0a0a] border border-zinc-900 group hover:border-zinc-700 transition-all duration-500 p-6">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-lg font-light tracking-wide text-white">
                   Recent Activities
                 </h2>
-                <button className="text-sm text-primary font-medium hover:underline">
+                <button className="text-xs text-zinc-500 font-light tracking-widest uppercase hover:text-zinc-300 transition-all duration-300">
                   View All
                 </button>
               </div>
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {recentActivities.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-start pb-4 border-b border-gray-700 last:border-0 last:pb-0"
+                    className="flex items-start pb-6 border-b border-zinc-900 last:border-0 last:pb-0"
                   >
-                    <div className="p-2 rounded-full bg-gray-700 text-primary mr-3">
-                      <FontAwesomeIcon
-                        icon={getActivityIcon(activity.type)}
-                        className="w-4 h-4"
-                      />
-                    </div>
+                    <FontAwesomeIcon
+                      icon={getActivityIcon(activity.type)}
+                      className="w-4 h-4 text-zinc-600 mt-1 mr-4"
+                    />
                     <div>
-                      <p className="text-sm text-gray-300 font-medium">
+                      <p className="text-sm font-light text-zinc-400">
                         {activity.message}
                       </p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs font-extralight text-zinc-600 mt-1 tracking-wide">
                         {activity.time}
                       </p>
                     </div>
