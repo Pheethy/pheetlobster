@@ -43,14 +43,18 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full h-16 bg-black text-white">
+    <nav className="w-full h-24 bg-black text-white">
       <div className="container mx-auto h-full flex justify-between items-center p-4">
         {/* logo */}
-        <section className="flex text-white font-light text-sm">
-          <FontAwesomeIcon
-            icon={faCodepen}
-            className="mr-2 text-white w-5 h-5"
-          />
+        <section className="flex items-center text-white font-light text-sm">
+          <div className="mr-2 text-white w-50 h-50">
+            <img
+              src="/imppily.gif"
+              alt="logo"
+              width={60}
+              height={60}
+            />
+          </div>
           <a href="/">ODOR</a>
         </section>
 
