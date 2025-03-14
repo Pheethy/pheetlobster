@@ -93,7 +93,7 @@ export default function SignIn() {
       const passport = await signIn(user);
       localStorage.setItem("access_token", passport.token.access_token);
       localStorage.setItem("refresh_token", passport.token.refresh_token);
-      window.location.href = "/";
+      window.location.href = "/products";
     } catch (error) {
       setErrors({
         general:
