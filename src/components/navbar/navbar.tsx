@@ -37,8 +37,13 @@ export default function Navbar() {
 
   const handleMenuItemClick = (action?: string) => {
     setIsMenuVisible(false);
-    if (action === "signin") {
+    switch (action) {
+    case "signin":
       window.location.href = "/signin";
+      break;
+    case "cart":
+      window.location.href = "/shoppingcart";
+      break;
     }
   };
 
@@ -126,6 +131,12 @@ export default function Navbar() {
                     className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     Profile Settings
+                  </div>
+                  <div
+                    onClick={() => handleMenuItemClick("cart")}
+                    className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
+                  >
+                    Shopping Cart
                   </div>
                   <div
                     onClick={() => handleMenuItemClick("profile")}

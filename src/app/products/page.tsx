@@ -23,20 +23,20 @@ export default function Products() {
   return (
     <div className="min-h-screen bg-surface">
       <div className="container flex flex-col justify-between items-center mx-auto px-4 py-4 min-h-screen">
-        <div className="mb-8">
-          <div className="flex justify-center items-center w-full">
-            <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
-              <Search className="text-gray-400 w-6 h-6 pl-2" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="w-96 bg-black text-white py-3 pl-2 text-sm focus:outline-none rounded-lg"
-                onChange={(e) => setSearchWord(e.target.value)}
-              />
-            </div>
+        {/* Search bar zone */}
+        <div className="flex justify-center items-center w-full">
+          <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <Search className="text-gray-400 w-6 h-6 pl-2" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-96 bg-black text-white py-3 pl-2 text-sm focus:outline-none rounded-lg"
+              onChange={(e) => setSearchWord(e.target.value)}
+            />
           </div>
         </div>
 
+        {/* Product list zone */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
           {productsResp?.products.map((product, index) => (
             <div
@@ -73,6 +73,7 @@ export default function Products() {
           ))}
         </div>
 
+        {/* Pagination Zone */}
         <div className="w-full flex justify-center py-2 border-t border-zinc-900">
           <div className="flex space-x-2">
             {Array.from({ length: productsResp?.total_page || 0 }, (_, i) => (
