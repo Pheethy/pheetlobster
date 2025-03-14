@@ -79,14 +79,6 @@ export default function Home() {
               transition={{ duration: 1.5, delay: 0.5 }}
             />
           </motion.div>
-          <section className="mt-32 text-center">
-            <a href="https://www.digitalocean.com/?refcode=bffceeebdce0&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
-              <img
-                src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
-                alt="DigitalOcean Referral Badge"
-              />
-            </a>{" "}
-          </section>
         </div>
       </div>
     </div>

@@ -5,12 +5,7 @@ import { User } from "@/models/users";
 import { ProductsResp } from "@/models/products";
 import { fetchAllProducts } from "@/services/products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  created_at: string;
-};
+import { Transaction } from "@/models/transactions";
 import {
   faChartLine,
   faBox,
@@ -19,6 +14,7 @@ import {
   faFileAlt,
   faArrowUp,
   faArrowDown,
+  faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard() {
@@ -68,24 +64,86 @@ export default function Dashboard() {
   };
 
   // Mock data for recent activities
-  const mockRecentProducts: Product[] = [
+  const mockTranstions: Transaction[] = [
     {
       id: 1,
-      name: "Product A",
+      from: "Robert",
+      to: "John",
+      hash_transaction: "0x1234567890abcdef",
       price: 19.99,
       created_at: "2024-03-08T12:00:00Z",
     },
     {
       id: 2,
-      name: "Product B",
+      from: "John",
+      to: "Robert",
+      hash_transaction: "0xabcdef1234567890",
       price: 29.99,
       created_at: "2024-03-09T14:30:00Z",
     },
     {
       id: 3,
-      name: "Product C",
+      from: "Steve Rogers",
+      to: "Luffy",
+      hash_transaction: "0x1a2b3c4d5e6f7a8b",
       price: 9.99,
       created_at: "2024-03-10T10:45:00Z",
+    },
+    {
+      id: 4,
+      from: "Tony Stark",
+      to: "Peter Parker",
+      hash_transaction: "0xdeadbeefcafebabe",
+      price: 49.99,
+      created_at: "2024-03-11T18:20:00Z",
+    },
+    {
+      id: 5,
+      from: "Bruce Wayne",
+      to: "Clark Kent",
+      hash_transaction: "0xf00dcafe1337babe",
+      price: 79.99,
+      created_at: "2024-03-12T09:15:00Z",
+    },
+    {
+      id: 6,
+      from: "Diana Prince",
+      to: "Barry Allen",
+      hash_transaction: "0xfeedface0000beef",
+      price: 24.99,
+      created_at: "2024-03-13T11:40:00Z",
+    },
+    {
+      id: 7,
+      from: "Hal Jordan",
+      to: "Arthur Curry",
+      hash_transaction: "0x1337c0d31337c0de",
+      price: 39.99,
+      created_at: "2024-03-14T15:55:00Z",
+    },
+    {
+      id: 8,
+      from: "Black Canary",
+      to: "Green Arrow",
+      hash_transaction: "0x0000000000000000",
+      price: 14.99,
+      created_at: "2024-03-15T17:30:00Z",
+    },
+    {
+      id: 9,
+      from: "Hawkgirl",
+      to: "Atom",
+      hash_transaction: "0xffffffff00000000",
+      price: 59.99,
+      created_at: "2024-03-16T10:00:00Z",
+    },
+    {
+      id: 10,
+      from: "Zatanna",
+      to: "John Constantine",
+      hash_transaction: "0xcafebabecafebabe",
+      price: 69.99,
+      created_at: "2024-03-17T13:25:00Z",
     },
   ];
 
@@ -161,10 +219,10 @@ export default function Dashboard() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 animate-slideDown">
           <div className="transform hover:scale-105 transition-transform duration-300">
             <h1 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              Dashboard
+              🌼 Dashboard
             </h1>
-            <p className="text-gray-400 mt-1 animate-pulse">
-              Welcome back, {user?.username || "User"}
+            <p className="text-white mt-1 animate-pulse">
+              Welcome back, {user?.username || "PheetchY"}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
@@ -276,7 +334,12 @@ export default function Dashboard() {
             <div className="bg-gray-800/80 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700/50 p-6 overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                  Recent Products
+                  Transactions
+                  <FontAwesomeIcon
+                    className="pl-2 text-gray-600 hover:text-white transition duration-500"
+                    icon={faCircleInfo}
+                    title="More information about this section"
+                  />
                 </h2>
                 <button className="text-sm text-primary font-medium hover:underline transition-all duration-300 hover:text-primary/80">
                   View All
@@ -286,8 +349,14 @@ export default function Dashboard() {
                 <table className="w-full">
                   <thead>
                     <tr>
+                      <th className="text-left py-3 px-2 text-sm font-medium text-gray-400 border-b border-gray-700">
+                        From
+                      </th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
-                        Name
+                        To
+                      </th>
+                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
+                        Tx.Hashing
                       </th>
                       <th className="text-left py-3 px-4 text-sm font-medium text-gray-400 border-b border-gray-700">
                         Price
@@ -298,19 +367,25 @@ export default function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockRecentProducts.map((product) => (
+                    {mockTranstions.map((transItem) => (
                       <tr
-                        key={product.id}
+                        key={transItem.id}
                         className="hover:bg-gray-700 transition-colors"
                       >
+                        <td className="py-3 px-2 text-sm text-gray-300">
+                          {transItem.from}
+                        </td>
                         <td className="py-3 px-4 text-sm text-gray-300">
-                          {product.name}
+                          {transItem.to}
+                        </td>
+                        <td className="py-3 px-4 text-sm text-gray-300">
+                          {transItem.hash_transaction}
                         </td>
                         <td className="py-3 px-4 text-sm text-gray-300 font-medium">
-                          ${product.price.toFixed(2)}
+                          ${transItem.price.toFixed(2)}
                         </td>
                         <td className="py-3 px-4 text-sm text-gray-400">
-                          {new Date(product.created_at).toLocaleDateString(
+                          {new Date(transItem.created_at).toLocaleDateString(
                             undefined,
                             {
                               year: "numeric",
@@ -321,8 +396,7 @@ export default function Dashboard() {
                         </td>
                       </tr>
                     ))}
-                    {(!mockRecentProducts ||
-                      mockRecentProducts?.length === 0) && (
+                    {(!mockTranstions || mockTranstions?.length === 0) && (
                       <tr>
                         <td
                           colSpan={3}

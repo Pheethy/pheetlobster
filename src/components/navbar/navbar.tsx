@@ -30,7 +30,7 @@ export default function Navbar() {
             href="/dashboard"
             className="hover:scale-110 transition duration-300"
           >
-            Article
+            Dashboard
           </Link>
           <Link
             href="/products"
