@@ -22,7 +22,7 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="container flex flex-col justify-between items-center mx-auto px-4 py-4 min-h-screen">
+      <div className="container flex flex-col items-center mx-auto px-4 pt-4 gap-y-6 min-h-screen">
         {/* Search bar zone */}
         <div className="flex justify-center items-center w-full">
           <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
