@@ -10,7 +10,7 @@ export default function ShoppingCart() {
   const cartItems = useCartStore((state) => state.cart);
   const updateCartQuantity = useCartStore((state) => state.updateQuantity);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
-  
+
   console.log("Shopping Cart - Current cart items:", cartItems);
 
   const updateQuantity = (id: string, newQuantity: number) => {

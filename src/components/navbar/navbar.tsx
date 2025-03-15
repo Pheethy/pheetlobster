@@ -47,7 +47,7 @@ export default function Navbar() {
         router.push("/signin");
         break;
       case "cart":
-        router.push("/shoppingcart");
+        router.push("/shopping-cart");
         break;
     }
   };
@@ -147,11 +147,11 @@ export default function Navbar() {
                     className="flex items-center text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     Shopping Cart
-                      {cartItems.length > 0 && (
-                        <div className="bg-red-500 text-white ml-10 text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                          {cartItems.length}
-                        </div>
-                      )}
+                    {cartItems.length > 0 && (
+                      <div className="bg-red-500 text-white ml-10 text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                        {cartItems.length}
+                      </div>
+                    )}
                   </div>
                   <div
                     onClick={() => handleMenuItemClick("profile")}

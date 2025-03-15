@@ -1,5 +1,6 @@
 "use client";
-import { useState, FormEvent, ChangeEvent } from "react";
+
+import { useState, FormEvent } from "react";
 import { User } from "../../models/users";
 import { signIn } from "../../services/users";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,11 +10,9 @@ import {
   faEyeSlash,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGoogle,
-  faInstagram,
-  faCodepen,
-} from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { useRouter } from "next/navigation";
+import StartShopingModal from "../../components/modals/start-shopping";
 
 interface FormState {
   email: string;
@@ -35,6 +34,8 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string>("");
+  const [showLoginSuccessModal, setShowLoginSuccessModal] = useState(false);
+  const router = useRouter();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -93,7 +94,7 @@ export default function SignIn() {
       const passport = await signIn(user);
       localStorage.setItem("access_token", passport.token.access_token);
       localStorage.setItem("refresh_token", passport.token.refresh_token);
-      window.location.href = "/products";
+      setShowLoginSuccessModal(true);
     } catch (error) {
       setErrors({
         general:
@@ -108,6 +109,9 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen w-full bg-black flex items-start justify-center p-4">
+      {showLoginSuccessModal && (
+        <StartShopingModal onClose={() => setShowLoginSuccessModal(false)} />
+      )}
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
@@ -117,10 +121,6 @@ export default function SignIn() {
           {/* Header Section */}
           <div className="text-center space-y-2">
             <div className="inline-block p-3 rounded-full bg-purple-500/10 mb-2">
-              {/* <FontAwesomeIcon */}
-              {/*   icon={faCodepen} */}
-              {/*   className="text-3xl text-white" */}
-              {/* /> */}
               <img src="/imppily.gif" alt="imppily" className="w-48 h-48" />
             </div>
             <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
