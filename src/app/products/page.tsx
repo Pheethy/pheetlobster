@@ -2,13 +2,31 @@
 
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { ProductsResp, ProductQueryParams } from "../../models/products";
+import {
+  ProductsResp,
+  ProductQueryParams,
+  Product,
+  CartItem,
+} from "../../models/products";
 import { fetchAllProducts } from "../../services/products";
+import { useCartStore } from "../../store/cart-store";
 
 export default function Products() {
   const [productsResp, setproductsResp] = useState<ProductsResp>();
   const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(1);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const handlerAddCart = (product: Product) => {
+    let cartItem = new CartItem(
+      product.id,
+      product.name,
+      product.price,
+      1,
+      product.images[0].url,
+      product.description,
+    );
+    addToCart(cartItem);
+  };
 
   const queryParams: ProductQueryParams = {
     search_word: searchWord,
@@ -24,7 +42,7 @@ export default function Products() {
     <div className="min-h-screen bg-surface">
       <div className="container flex flex-col items-center mx-auto px-4 pt-4 gap-y-6 min-h-screen">
         {/* Search bar zone */}
-        <div className="flex justify-center items-center w-full">
+        <section className="flex justify-center items-center w-full">
           <div className="flex bg-black justify-center items-center rounded-lg border border-gray-700 focus-within:ring-2 focus:ring-blue-500 focus:border-transparent">
             <Search className="text-gray-400 w-6 h-6 pl-2" />
             <input
@@ -34,10 +52,10 @@ export default function Products() {
               onChange={(e) => setSearchWord(e.target.value)}
             />
           </div>
-        </div>
+        </section>
 
         {/* Product list zone */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
           {productsResp?.products.map((product, index) => (
             <div
               key={index}
@@ -64,17 +82,21 @@ export default function Products() {
                   {product.description}
                 </p>
                 <div className="mt-auto">
-                  <button className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300">
+                  <button
+                    onClick={() => handlerAddCart(product)}
+                    className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300"
+                  >
                     Add to Cart
                   </button>
                 </div>
               </div>
             </div>
           ))}
-        </div>
+        </section>
+
 
         {/* Pagination Zone */}
-        <div className="w-full flex justify-center py-2 border-t border-zinc-900">
+        <section className="w-full flex justify-center py-2 border-t border-zinc-900">
           <div className="flex space-x-2">
             {Array.from({ length: productsResp?.total_page || 0 }, (_, i) => (
               <button
@@ -87,7 +109,7 @@ export default function Products() {
               </button>
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

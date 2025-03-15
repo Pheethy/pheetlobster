@@ -26,3 +26,28 @@ export interface ProductsResp {
   total_rows: number;
   products: Product[];
 }
+
+export class CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  description: string;
+
+  constructor(
+    id: string,
+    name: string,
+    price: number,
+    quantity: number,
+    image: string,
+    description: string,
+  ) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+    this.image = image;
+    this.description = description;
+  }
+}

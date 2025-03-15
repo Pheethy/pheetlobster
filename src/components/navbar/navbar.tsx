@@ -1,9 +1,11 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodepen } from "@fortawesome/free-brands-svg-icons";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useCartStore } from "@/store/cart-store";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const fName: string = "Pheet'Chy";
@@ -12,6 +14,9 @@ export default function Navbar() {
   const [isLogIn, setIsLogIn] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const cartIconRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const cartItems = useCartStore((state) => state.cart);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,12 +43,12 @@ export default function Navbar() {
   const handleMenuItemClick = (action?: string) => {
     setIsMenuVisible(false);
     switch (action) {
-    case "signin":
-      window.location.href = "/signin";
-      break;
-    case "cart":
-      window.location.href = "/shoppingcart";
-      break;
+      case "signin":
+        router.push("/signin");
+        break;
+      case "cart":
+        router.push("/shoppingcart");
+        break;
     }
   };
 
@@ -82,12 +87,17 @@ export default function Navbar() {
         </section>
 
         {/* profile */}
-        <section className="flex justify-center items-center gap-x-2 text-sm font-light">
-          <img
-            alt="profile"
-            src="./mootoo.jpg"
-            className="w-10 h-10 rounded-full"
-          />
+        <section className="flex justify-center items-center gap-x-4 text-sm font-light">
+          <div className="relative cursor-pointer">
+            <img
+              alt="profile"
+              src="./mootoo.jpg"
+              className="w-10 h-10 rounded-full"
+            />
+            {cartItems.length > 0 && (
+              <div className="absolute -top-2 -right-2  h-2 w-2 rounded-full bg-red-500"></div>
+            )}
+          </div>
           <div className="flex flex-col">
             <div>{fName}</div>
             <div>{lName}</div>
@@ -134,9 +144,14 @@ export default function Navbar() {
                   </div>
                   <div
                     onClick={() => handleMenuItemClick("cart")}
-                    className="text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center text-left text-sm text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
                   >
                     Shopping Cart
+                      {cartItems.length > 0 && (
+                        <div className="bg-red-500 text-white ml-10 text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                          {cartItems.length}
+                        </div>
+                      )}
                   </div>
                   <div
                     onClick={() => handleMenuItemClick("profile")}
