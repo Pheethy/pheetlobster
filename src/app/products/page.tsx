@@ -84,7 +84,7 @@ export default function Products() {
                 <div className="mt-auto">
                   <button
                     onClick={() => handlerAddCart(product)}
-                    className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300"
+                    className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300 active:bg-white active:text-black"
                   >
                     Add to Cart
                   </button>
@@ -93,7 +93,6 @@ export default function Products() {
             </div>
           ))}
         </section>
-
 
         {/* Pagination Zone */}
         <section className="w-full flex justify-center py-2 border-t border-zinc-900">
