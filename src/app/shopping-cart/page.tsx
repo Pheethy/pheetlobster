@@ -1,17 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "@/components/logo/logo";
 import { useCartStore } from "@/store/cart-store";
+import CheckoutModal from "@/components/modals/checkout";
 
 export default function ShoppingCart() {
   const cartItems = useCartStore((state) => state.cart);
   const updateCartQuantity = useCartStore((state) => state.updateQuantity);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
-
-  console.log("Shopping Cart - Current cart items:", cartItems);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -35,6 +35,9 @@ export default function ShoppingCart() {
   return (
     <div className="min-h-screen bg-surface py-8">
       <div className="container mx-auto px-4">
+        {isCheckoutOpen && (
+          <CheckoutModal onClose={() => setIsCheckoutOpen(false)} />
+        )}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -156,6 +159,17 @@ export default function ShoppingCart() {
                     </button>
                   </div>
                 </div>
+
+                <div className="space-y-2">
+                  <span className="text-zinc-400 text-sm">Address</span>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter your destination"
+                      className="flex-grow bg-transparent border border-zinc-800 text-zinc-400 text-sm p-2 focus:outline-none focus:border-zinc-700"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="pt-4 border-t border-zinc-900">
@@ -165,7 +179,10 @@ export default function ShoppingCart() {
                     ${calculateTotal().toFixed(2)}
                   </span>
                 </div>
-                <button className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300">
+                <button
+                  onClick={() => setIsCheckoutOpen(true)}
+                  className="w-full bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 py-3 text-xs tracking-widest uppercase font-light transition-all duration-300"
+                >
                   Checkout
                 </button>
               </div>

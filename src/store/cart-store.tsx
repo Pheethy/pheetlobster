@@ -12,6 +12,7 @@ type CartStore = {
   clearCart: () => void;
 };
 
+/* Data Structure สำหรับการเก็บเข้า Local Storage */
 const customStorage: PersistStorage<CartStore> = {
   getItem: (name: string) => {
     const item = localStorage.getItem(name);
