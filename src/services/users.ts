@@ -14,9 +14,6 @@ export class UserAPIClient {
   private constructor() {
     this.axiosInstance = axios.create({
       baseURL: BASE_URL,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       timeout: 10000,
     });
   }
@@ -28,7 +25,6 @@ export class UserAPIClient {
     return UserAPIClient.instance;
   }
 
-  //multipart form data
   public async signIn(user: User): Promise<UserPassport> {
     try {
       const formData = new FormData();
@@ -36,14 +32,18 @@ export class UserAPIClient {
       formData.append("password", user.password);
       const response = await this.axiosInstance.post<{
         passport: UserPassport;
-      }>(`${ENDPOINTS.user}/sign-in`, formData);
+      }>(`${ENDPOINTS.user}/sign-in`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response.data.passport;
     } catch (error) {
+      console.error("SignIn error:", error);
       throw new Error("An unexpected error occurred");
     }
   }
 
-  //multipart form data
   public async signUp(user: UserSignUp): Promise<UserPassport> {
     try {
       const formData = new FormData();
@@ -53,21 +53,19 @@ export class UserAPIClient {
       if (user.files.length > 0) {
         formData.append("files", user.files[0]);
       }
+
       const response = await this.axiosInstance.post<{
         passport: UserPassport;
-      }>(`${ENDPOINTS.user}/sign-up`, formData);
+      }>(`${ENDPOINTS.user}/sign-up`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("SignUp API response:", response);
       return response.data.passport;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-      // Handle axios error
-      if (axios.isAxiosError(error)) {
-        throw new Error(
-          error.response?.data?.message || "Network error occurred",
-        );
-      }
-      // Fallback error
+      console.error("SignUp error:", error);
       throw new Error("An unexpected error occurred");
     }
   }

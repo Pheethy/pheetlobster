@@ -1,7 +1,6 @@
 "use client";
 import { useState, FormEvent, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCodepen } from "@fortawesome/free-brands-svg-icons";
 import { UserSignUp } from "../../models/users";
 import { signUp } from "../../services/users";
 import {
@@ -12,7 +11,8 @@ import {
   faEnvelope,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { toast, Toaster } from "sonner";
+import ValidateFormModal from "../../components/modals/validate-form";
+import { useRouter } from "next/navigation";
 
 interface FormState {
   email: string;
@@ -33,6 +33,10 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showValidationError, setShowValidationError] = useState(false);
+  const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // Track modal visibility
+  const router = useRouter();
 
   const validateForm = (): [boolean, string] => {
     let newErrors: string = "";
@@ -93,19 +97,20 @@ export default function SignUp() {
   };
 
   const handlerBackToSignIn = () => {
-    window.location.href = "/signin";
+    router.push("/signin");
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const [ok, errMsg] = validateForm();
     if (!ok) {
-      toast.error(errMsg);
+      setShowValidationError(true);
+      setValidationErrorMessage(errMsg);
+      setIsModalOpen(true); // Open the modal
       return;
     }
 
     setIsLoading(true);
-
     try {
       const user: UserSignUp = {
         email: formData.email,
@@ -113,19 +118,11 @@ export default function SignUp() {
         password: formData.password,
         files: formData.profilePicture ? [formData.profilePicture] : [],
       };
-
       const passport = await signUp(user);
       localStorage.setItem("access_token", passport.token.access_token);
-      localStorage.setItem("refresh_token", passport.token.refresh_token);
-      window.location.href = "/";
+      router.push("/signin");
     } catch (error) {
-      alert(error);
-      // setErrors({
-      //   message:
-      //     error instanceof Error
-      //       ? error.message
-      //       : "An error occurred during sign in",
-      // });
+      console.error("API call failed:", error);
     } finally {
       setIsLoading(false);
     }
@@ -133,6 +130,12 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen w-full bg-black flex items-start justify-center p-4">
+      {isModalOpen && (
+        <ValidateFormModal
+          errorMessage={validationErrorMessage}
+          onClose={() => setIsModalOpen(false)} // Close modal only when user clicks a button
+        />
+      )}
       <div className="max-w-md w-full">
         <form
           onSubmit={handleSubmit}
@@ -193,7 +196,7 @@ export default function SignUp() {
                 Email Address
               </label>
               <div
-                className={`group relative border-2 rounded-xl transition-all duration-300 
+                className={`group relative border-2 rounded-xl transition-all duration-300
                 ${
                   focusedField === "email"
                     ? "border-purple-500 bg-purple-500/5"
@@ -203,7 +206,7 @@ export default function SignUp() {
                 <div className="absolute inset-y-0 left-3 flex items-center">
                   <FontAwesomeIcon
                     icon={faEnvelope}
-                    className={`transition-colors duration-300 
+                    className={`transition-colors duration-300
                       ${focusedField === "email" ? "text-purple-400" : "text-gray-500"}`}
                   />
                 </div>
@@ -226,7 +229,7 @@ export default function SignUp() {
                 Password
               </label>
               <div
-                className={`group relative border-2 rounded-xl transition-all duration-300 
+                className={`group relative border-2 rounded-xl transition-all duration-300
                 ${
                   focusedField === "password"
                     ? "border-purple-500 bg-purple-500/5"
@@ -236,7 +239,7 @@ export default function SignUp() {
                 <div className="absolute inset-y-0 left-3 flex items-center">
                   <FontAwesomeIcon
                     icon={faLock}
-                    className={`transition-colors duration-300 
+                    className={`transition-colors duration-300
                       ${focusedField === "password" ? "text-purple-400" : "text-gray-500"}`}
                   />
                 </div>
@@ -269,7 +272,7 @@ export default function SignUp() {
                 Confirm Password
               </label>
               <div
-                className={`group relative border-2 rounded-xl transition-all duration-300 
+                className={`group relative border-2 rounded-xl transition-all duration-300
                 ${
                   focusedField === "confirm-password"
                     ? "border-purple-500 bg-purple-500/5"
@@ -279,7 +282,7 @@ export default function SignUp() {
                 <div className="absolute inset-y-0 left-3 flex items-center">
                   <FontAwesomeIcon
                     icon={faLock}
-                    className={`transition-colors duration-300 
+                    className={`transition-colors duration-300
                       ${focusedField === "confirm-password" ? "text-purple-400" : "text-gray-500"}`}
                   />
                 </div>
@@ -309,7 +312,7 @@ export default function SignUp() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-purple-600 text-white py-3 px-4 rounded-xl font-medium 
+              className="w-full bg-purple-600 text-white py-3 px-4 rounded-xl font-medium
                 hover:bg-purple-700 focus:bg-purple-700 focus:outline-none
                 transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
                 shadow-lg hover:shadow-purple-500/25"
@@ -340,7 +343,6 @@ export default function SignUp() {
             </button>
           </div>
         </form>
-        <Toaster />
       </div>
     </div>
   );
