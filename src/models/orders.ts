@@ -9,6 +9,26 @@ export interface Order {
   updated_at: string;
 }
 
+export interface OrderDashboard {
+  id: string;
+  contact: string;
+  address: string;
+  status: string;
+  tx_hashing: string;
+  created_at: string;
+  updated_at: string;
+  user_detail: UserDatail;
+}
+
+export interface UserDatail {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface OrdersProducts {
   product_id: string;
   qty: number;

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Order } from "../models/orders";
+import { Order, OrderDashboard } from "../models/orders";
 
 // 1. Constants
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -59,8 +59,35 @@ export class OrderAPIClient {
       throw new APIError("An unexpected error occurred");
     }
   }
+
+  public async fetchOrdersDashboard(): Promise<OrderDashboard[]> {
+    const queryparams = {
+      hashing: "true",
+    };
+    try {
+      const resp = await this.axiosInstance.get<{ orders: OrderDashboard[] }>(
+        `${ENDPOINTS}/dashboard`,
+        { params: queryparams },
+      );
+
+      return resp.data.orders;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new APIError(
+          error.message,
+          error.response?.status,
+          error.response?.data,
+        );
+      }
+      throw new APIError("An unexpected error occurred");
+    }
+  }
 }
 
 export const createOrder = async (order: Order): Promise<Order> => {
   return OrderAPIClient.getInstance().createOrder(order);
+};
+
+export const fethcOrdersDahsboard = async (): Promise<OrderDashboard[]> => {
+  return OrderAPIClient.getInstance().fetchOrdersDashboard();
 };

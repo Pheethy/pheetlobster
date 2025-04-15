@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { User } from "@/models/users";
 import { ProductsResp } from "@/models/products";
-import { fetchAllProducts } from "@/services/products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transaction } from "@/models/transactions";
 import {
@@ -17,41 +16,35 @@ import {
   faCircleInfo,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+import { fethcOrdersDahsboard } from "@/services/order";
+import { OrderDashboard } from "@/models/orders";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
-  const [productStats, setProductStats] = useState<ProductsResp | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [orders, setOrders] = useState<OrderDashboard[]>([]);
+
+  const fetchOrdersDashboard = async () => {
+    try {
+      const resp = await fethcOrdersDahsboard();
+      setOrders(resp);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch orders dashboard:", error);
+    }
+  };
 
   useEffect(() => {
-    // Check if user is logged in (could retrieve from localStorage or context)
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
 
-    // Fetch product stats
-    const loadProductStats = async () => {
-      try {
-        const response = await fetchAllProducts({
-          search_word: "",
-          page: 1,
-          per_page: 10,
-        });
-        setProductStats(response);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadProductStats();
+    fetchOrdersDashboard();
   }, []);
 
-  // Mock data for dashboard stats
   const stats = {
     totalSales: 1248,
     totalRevenue: 24680,
@@ -64,99 +57,6 @@ export default function Dashboard() {
       orders: 5.7,
     },
   };
-
-  const mockTranstions: Transaction[] = [
-    {
-      id: 1,
-      username: "Robert",
-      email: "robert@example.com",
-      role: "User",
-      hash_transaction: "0x1234567890abcdef",
-      price: 19.99,
-      created_at: "2024-03-08T12:00:00Z",
-    },
-    {
-      id: 2,
-      username: "John",
-      email: "john@example.com",
-      role: "Admin",
-      hash_transaction: "0xabcdef1234567890",
-      price: 29.99,
-      created_at: "2024-03-09T14:30:00Z",
-    },
-    {
-      id: 3,
-      username: "Steve Rogers",
-      email: "steve@avengers.com",
-      role: "User",
-      hash_transaction: "0x1a2b3c4d5e6f7a8b",
-      price: 9.99,
-      created_at: "2024-03-10T10:45:00Z",
-    },
-    {
-      id: 4,
-      username: "Tony Stark",
-      email: "tony@stark.com",
-      role: "Admin",
-      hash_transaction: "0xdeadbeefcafebabe",
-      price: 49.99,
-      created_at: "2024-03-11T18:20:00Z",
-    },
-    {
-      id: 5,
-      username: "Bruce Wayne",
-      email: "bruce@wayne.com",
-      role: "User",
-      hash_transaction: "0xf00dcafe1337babe",
-      price: 79.99,
-      created_at: "2024-03-12T09:15:00Z",
-    },
-    {
-      id: 6,
-      username: "Diana Prince",
-      email: "diana@themyscira.com",
-      role: "User",
-      hash_transaction: "0xfeedface0000beef",
-      price: 24.99,
-      created_at: "2024-03-13T11:40:00Z",
-    },
-    {
-      id: 7,
-      username: "Hal Jordan",
-      email: "hal@greenlantern.com",
-      role: "User",
-      hash_transaction: "0x1337c0d31337c0de",
-      price: 39.99,
-      created_at: "2024-03-14T15:55:00Z",
-    },
-    {
-      id: 8,
-      username: "Black Canary",
-      email: "dinah@birds.com",
-      role: "User",
-      hash_transaction: "0x0000000000000000",
-      price: 14.99,
-      created_at: "2024-03-15T17:30:00Z",
-    },
-    {
-      id: 9,
-      username: "Hawkgirl",
-      email: "shayera@thanagar.com",
-      role: "User",
-      hash_transaction: "0xffffffff00000000",
-      price: 59.99,
-      created_at: "2024-03-16T10:00:00Z",
-    },
-    {
-      id: 10,
-      username: "Zatanna",
-      email: "zatanna@magic.com",
-      role: "Admin",
-      hash_transaction: "0xcafebabecafebabe",
-      price: 69.99,
-      created_at: "2024-03-17T13:25:00Z",
-    },
-  ];
 
   const recentActivities = [
     {
@@ -380,36 +280,36 @@ export default function Dashboard() {
                         Role
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
-                        Price
+                        Status
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
                         Tx.Hashing
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-light tracking-widest uppercase text-zinc-500 border-b border-zinc-900">
-                        CreatedAt
+                        Created At
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {mockTranstions.map((transItem) => (
+                    {orders.map((transItem) => (
                       <tr
                         key={transItem.id}
                         className="hover:bg-zinc-900 transition-colors duration-300"
                       >
                         <td className="py-3 px-4 text-sm font-light text-zinc-400">
-                          {transItem.username}
+                          {transItem.user_detail.username}
                         </td>
                         <td className="py-3 px-4 text-sm font-light text-zinc-400">
-                          {transItem.email}
+                          {transItem.user_detail.email}
                         </td>
                         <td className="py-3 px-4 text-sm font-light text-zinc-400">
-                          {transItem.role}
+                          {transItem.user_detail.role}
                         </td>
                         <td className="py-3 px-4 text-sm font-light text-zinc-400">
-                          {transItem.price}
+                          {transItem.status}
                         </td>
                         <td className="py-3 px-4 text-sm font-light text-zinc-400 truncate max-w-[150px]">
-                          {transItem.hash_transaction}
+                          {transItem.tx_hashing}
                         </td>
                         <td className="py-3 px-4 text-sm font-extralight text-zinc-500">
                           {new Date(transItem.created_at).toLocaleDateString(
@@ -423,7 +323,7 @@ export default function Dashboard() {
                         </td>
                       </tr>
                     ))}
-                    {(!mockTranstions || mockTranstions?.length === 0) && (
+                    {(!orders || orders?.length === 0) && (
                       <tr>
                         <td
                           colSpan={3}
