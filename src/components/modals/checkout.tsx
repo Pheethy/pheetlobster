@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { useCartStore } from "@/store/cart-store";
+import { Order } from "@/models/orders";
+import { OrdersProducts } from "@/models/orders";
+import { createOrder } from "@/services/order";
 
 export default function CheckoutModal({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
@@ -21,10 +24,34 @@ export default function CheckoutModal({ onClose }: { onClose?: () => void }) {
     if (onClose) onClose();
   };
 
-  const handleCheckout = () => {
+  async function handleCheckout() {
+    const cart = useCartStore.getState().cart;
+    let orderProds: OrdersProducts[] = [];
+    for (let i = 0; i < cart.length; i++) {
+      orderProds.push({
+        product_id: cart[i].id,
+        qty: cart[i].quantity,
+        price: cart[i].price,
+      });
+    }
+
+    let orderReq: Order = {
+      id: "order123",
+      customer_id: "customer456",
+      contact: "customer@example.com",
+      address: "123 Example Street, Example City",
+      status: "pending",
+      product_order_list: orderProds,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    let resp = await createOrder(orderReq);
+    console.log("resp:", resp);
+
     clearCart();
     router.push("/dashboard");
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -45,7 +72,6 @@ export default function CheckoutModal({ onClose }: { onClose?: () => void }) {
         >
           <X size={20} />
         </button>
-
         <div className="text-center">
           {/* อนิเมชั่นไอคอนตะกร้าสินค้า */}
           <motion.div

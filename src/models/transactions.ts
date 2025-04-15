@@ -1,7 +1,8 @@
 export type Transaction = {
   id: number;
-  from: string;
-  to: string;
+  username: string;
+  email: string;
+  role: string;
   hash_transaction: string;
   price: number;
   created_at: string;
