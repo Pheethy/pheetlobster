@@ -92,6 +92,7 @@ export default function SignIn() {
       };
 
       const passport = await signIn(user);
+      localStorage.setItem("user_id", passport.user.id);
       localStorage.setItem("access_token", passport.token.access_token);
       localStorage.setItem("refresh_token", passport.token.refresh_token);
       setShowLoginSuccessModal(true);

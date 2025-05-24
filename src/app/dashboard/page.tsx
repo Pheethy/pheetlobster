@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { User } from "@/models/users";
-import { ProductsResp } from "@/models/products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transaction } from "@/models/transactions";
+
 import {
   faChartLine,
   faBox,

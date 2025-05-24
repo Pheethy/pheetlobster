@@ -35,15 +35,16 @@ export default function CheckoutModal({ onClose }: { onClose?: () => void }) {
       });
     }
 
+    const customerId = localStorage.getItem("user_id");
     let orderReq: Order = {
-      id: "order123",
-      customer_id: "customer456",
+      id: "",
+      customer_id: customerId ? customerId : "",
       contact: "customer@example.com",
       address: "123 Example Street, Example City",
       status: "pending",
       product_order_list: orderProds,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      created_at: "",
+      updated_at: "",
     };
 
     let resp = await createOrder(orderReq);
