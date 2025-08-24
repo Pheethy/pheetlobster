@@ -15,13 +15,16 @@ type CartStore = {
 /* Data Structure สำหรับการเก็บเข้า Local Storage */
 const customStorage: PersistStorage<CartStore> = {
   getItem: (name: string) => {
+    if (typeof window === 'undefined') return null;
     const item = localStorage.getItem(name);
     return item ? JSON.parse(item) : null;
   },
   setItem: (name: string, value: StorageValue<CartStore>) => {
+    if (typeof window === 'undefined') return;
     localStorage.setItem(name, JSON.stringify(value));
   },
   removeItem: (name: string) => {
+    if (typeof window === 'undefined') return;
     localStorage.removeItem(name);
   },
 };
